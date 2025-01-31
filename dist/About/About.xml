@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+
+  <packageId>org.pavluk.neurator</packageId>
+  <name>Neuro-sama Storyteller Integration</name>
+  <author>chayleaf</author>
+  <description>Wishlist Abandoned Archive</description>
+  <supportedVersions>
+    <li>1.5</li>
+  </supportedVersions>
+  <url>https://github.com/chayleaf/Neurator</url>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+    </li>
+    <li>
+      <packageId>latta.fsharp.core</packageId>
+      <displayName>FSharp.Core</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2059725183</steamWorkshopUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>latta.fsharp.core</li>
+  </loadAfter>
+
+</ModMetaData>
