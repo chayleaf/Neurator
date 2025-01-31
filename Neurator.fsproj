@@ -13,27 +13,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="System.Numerics" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Update="FSharp.Core" Version="4.7.2" IncludeAssets="compile" />
-    <!--<PackageReference Include="UnityEngine.Modules" Version="2021.3.43" IncludeAssets="compile" />-->
-    <!-- ^ PrivateAssets="all" -->
-    <PackageReference Include="Lib.Harmony.Ref" Version="2.3.3" IncludeAssets="compile" />
-    <!--<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4297" IncludeAssets="compile">
-    </PackageReference>-->
+    <PackageReference Update="FSharp.Core" Version="4.7.2" IncludeAssets="compile" PrivateAssets="all" />
+    <!--<PackageReference Include="UnityEngine.Modules" Version="2021.3.43" IncludeAssets="compile" PrivateAssets="all" />-->
+    <!-- ^  -->
+    <PackageReference Include="Lib.Harmony" Version="2.2.2" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4297" IncludeAssets="None" PrivateAssets="all" />
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(PkgKrafs_Rimworld_Ref)\ref\$(TargetFramework)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <!--<Reference Include="0Harmony">
       <HintPath>lib\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>-->
-    <Reference Include="Assembly-CSharp">
+    <!--<Reference Include="Assembly-CSharp">
       <HintPath>lib\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+    </Reference>-->
   </ItemGroup>
 
   <ItemGroup>

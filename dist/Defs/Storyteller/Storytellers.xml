@@ -8,6 +8,12 @@
     <portraitTiny>UI/HeroArt/Storytellers/NeuroSamaTiny</portraitTiny>
     <listOrder>50</listOrder>
       <comps>
+      <li Class="Neurator.StorytellerCompProperties_NeuroSama">
+        <allowedTargetTags>
+          <li>Map_PlayerHome</li>
+        </allowedTargetTags>
+      </li>
+      <!-- Everything below is copied from Randy -->
       <!-- Home all -->
       <li Class="StorytellerCompProperties_RandomMain">
         <allowedTargetTags>

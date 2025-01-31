@@ -45,44 +45,41 @@ and StorytellerCompProperties_NeuroSama() as this =
     inherit StorytellerCompProperties()
     do this.compClass <- typeof<StorytellerComp_NeuroSama>
 
-and Game() =
+and [<Verse.StaticConstructorOnStartup>] Game() as this =
     inherit Game<Actions>()
 
     let cts = new Threading.CancellationTokenSource()
     let mutable harmony = Harmony("org.pavluk.neurator")
 
-    member _.EatRandyIncidents(_incidents: FiringIncident seq) = ()
+    // initialize instance
+    static do Game.Instance |> ignore
 
-    override _.ReregisterActions() = ()
-    override _.Name = "RimWorld"
-
-    [<DefaultValue>]
-    static val mutable private instance: Game
-
-    static member Instance: Game = Game.instance
-
-    override _.HandleAction(action: Actions) =
-        match action with
-        | Test _countryName -> Error None
-
-    override _.LogError error =
-        // let fff = "fff"
-        // plugin.Logger.LogError $"{DateTime.UtcNow}.{DateTime.UtcNow.ToString(fff)} {error}"
-        error |> ignore
-
-    override _.LogDebug error =
-        // let fff = "fff"
-        // plugin.Logger.LogInfo $"{DateTime.UtcNow}.{DateTime.UtcNow.ToString(fff)} {error}"
-        error |> ignore
-
-    member this.Awake() =
+    do
         try
-            Game.instance <- this
             harmony.PatchAll(Assembly.GetExecutingAssembly())
             let cnt = Seq.fold (fun x _ -> x + 1) 0 (harmony.GetPatchedMethods())
             this.Start(None, cts.Token) |> ignore
             this.LogDebug(sprintf "Plugin Neurator is loaded with %d patches!" cnt)
         with exc ->
             this.LogError(sprintf "ERROR %A" exc)
+
+    static member Instance: Game = Game()
+
+    member _.EatRandyIncidents(_incidents: FiringIncident seq) = ()
+
+    override _.ReregisterActions() = ()
+    override _.Name = "RimWorld"
+
+    override _.HandleAction(action: Actions) =
+        match action with
+        | Test _countryName -> Error None
+
+    override _.LogError error =
+        Printf.ksprintf Verse.Log.Error "%A.%s %s" DateTime.UtcNow (DateTime.UtcNow.ToString("fff")) error
+        eprintfn "%A.%s %s" DateTime.UtcNow (DateTime.UtcNow.ToString("fff")) error
+
+    override _.LogDebug error =
+        Printf.ksprintf Verse.Log.Warning "%A.%s %s" DateTime.UtcNow (DateTime.UtcNow.ToString("fff")) error
+        eprintfn "%A.%s %s" DateTime.UtcNow (DateTime.UtcNow.ToString("fff")) error
 
     member _.Update() = ()
