@@ -17,10 +17,26 @@ type public Patches() =
         ) =
         match target with
         | :? Verse.Map as map when Seq.contains IncidentTargetTagDefOf.Map_PlayerHome (map.IncidentTargetTags()) ->
-            try
-                Game.Instance.EatRandyIncidents __result
-            with _ ->
-                ()
+            let neuro =
+                Verse.Find.Storyteller.storytellerComps
+                |> Seq.tryPick (function
+                    | :? StorytellerComp_NeuroSama as x -> Some x
+                    | _ -> None)
 
-            __result <- Seq.empty
+            match neuro with
+            | Some neuro ->
+                try
+                    neuro.EatRandyIncidents __result target
+                with exc ->
+                    Game.Instance.LogError(exc.ToString())
+            | None -> __result <- Seq.empty
         | _ -> ()
+
+    [<HarmonyPatch(typeof<Verse.TickManager>, nameof Unchecked.defaultof<Verse.TickManager>.DoSingleTick)>]
+    [<HarmonyPostfix>]
+    static member public Update() =
+        if Game.Instance <> null then
+            try
+                Game.Instance.Update()
+            with exc ->
+                Game.Instance.LogError(exc.ToString())
